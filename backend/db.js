@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = require('mongoose')
 
-mongoose.connect('mongodb://localhost:27017/paytmData')
+mongoose.connect('mongodb+srv://gauravmehra920:drake%402003@gauravcluster.olubxtl.mongodb.net/paytmData', { family: 4 })
 
 const userSchema = new Schema({
     email: { type: String, trim: true },
@@ -10,6 +10,18 @@ const userSchema = new Schema({
     password: { type: String, trim: true, min: 6 }
 });
 
-const User = mongoose.model('User', userSchema);
+const bankSchema = new Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    balance: {
+        type: Number,
+        required: true
+    }
+});
 
-module.exports = User
+const User = mongoose.model('User', userSchema);
+const Bank = mongoose.model('Bank', bankSchema);
+module.exports = { User, Bank };
